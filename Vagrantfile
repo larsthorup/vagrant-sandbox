@@ -8,9 +8,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "precise32"
-  # config.vm.box = "precise32_salt"
-  # config.vm.box = "precise32_salt_postgres"
   # config.vm.box = "precise32_postgres"
+  # config.vm.box = "precise32_salt_postgres"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -51,7 +50,12 @@ Vagrant.configure("2") do |config|
   # View the documentation for the provider you're using for more
   # information on available options.
 
-  config.vm.provision "shell", path: "provision.sh"
+  # config.vm.provision "shell", path: "shell/provision.sh"
+
+  config.vm.provision :salt do |salt|
+    salt.minion_config = "salt/minion"
+    salt.run_highstate = true
+  end
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
